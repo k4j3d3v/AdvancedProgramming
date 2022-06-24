@@ -1,5 +1,19 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
+ * To change this license header, c                @Override
+                public void paintBorder(Component cmpnt, Graphics grphcs, int i, int i1, int i2, int i3) {
+                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+
+                @Override
+                public Insets getBorderInsets(Component cmpnt) {
+                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+
+                @Override
+                public boolean isBorderOpaque() {
+                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+            }oose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -108,21 +122,21 @@ public class TTTBoard extends JFrame implements PropertyChangeListener{
             case ROW:
             {     
                 for(int i=pos, j=0; j < size;j++)
-                    matrix[i][j].setBackground(Color.green);
+                    matrix[i][j].setBtnWin();
                 break;
             }
         
             case DIAG:
             {     
                 for(int i=0,j=0; j < size;i++,j++)
-                    matrix[i][j].setBackground(Color.green);
+                    matrix[i][j].setBtnWin();
                 break;
             }
         
             case ANTIDIAG:
             {     
-                for(int i=0,j=size-1; j < size;i++,j--)
-                    matrix[i][j].setBackground(Color.green);
+                for(int i=0,j=size-1; i < size;i++,j--)
+                    matrix[i][j].setBtnWin();
                 break;
             }
         }
@@ -133,7 +147,8 @@ public class TTTBoard extends JFrame implements PropertyChangeListener{
         System.out.println("Property changed, the new value is: "+pce.getPropertyName()+": " + pce.getNewValue());
         move++;
         System.out.println("#Moves: "+move);
-        if(move >= 5)
+        boolean win = false;
+        if(move >= 5 && move < 9)
         {
             //rows check
             for(int i=0,j=0; i< size; i++)
@@ -141,7 +156,10 @@ public class TTTBoard extends JFrame implements PropertyChangeListener{
                 if(matrix[i][j].getState()!= TTCell.TTTState.INITIAL 
                 && matrix[i][j].getState() == matrix[i][j+1].getState() 
                 && matrix[i][j+1].getState() == matrix[i][j+2].getState())
+                {
                     setWinner(matrix[i][j],winPattern.ROW, i);
+                    win=true;
+                }
                     //System.out.println("Game over. Winner is "+matrix[i][j].getState());
 
             }
@@ -151,7 +169,10 @@ public class TTTBoard extends JFrame implements PropertyChangeListener{
                 if(matrix[j][i].getState()!= TTCell.TTTState.INITIAL 
                 && matrix[j][i].getState() == matrix[j+1][i].getState() 
                 && matrix[j+1][i].getState() == matrix[j+2][i].getState())
+                {
                     setWinner(matrix[i][j],winPattern.COL, i);
+                    win=true;
+                }
 
                     //System.out.println("Game over. Winner is "+matrix[i][j].getState());
 
@@ -163,8 +184,11 @@ public class TTTBoard extends JFrame implements PropertyChangeListener{
                 && matrix[j][i].getState() == matrix[j+1][i+1].getState())
                 {
                     if(i==size-2)
+                    {
                         setWinner(matrix[i][j],winPattern.DIAG, 0);
                         //System.out.println("Game over. Winner is "+matrix[i][j].getState());
+                        win=true;
+                    }
                 }
                 else
                     i=size;
@@ -180,14 +204,23 @@ public class TTTBoard extends JFrame implements PropertyChangeListener{
                     if(i==1)
                     {
                         setWinner(matrix[i][j],winPattern.ANTIDIAG, 0);
+                        win=true;
                     }
                 }
                 else
-                    i=0;
+                    j=0;
                 
             }
         }
-
+        else if(move == 9)
+            {
+                ctlLbl.setText("Game over!");
+                win=true;
+            }
+        if(win)
+            for(int i=0; i < size; i++)
+                for(int j=0; j < size; j++)
+                    matrix[i][j].disableBtn();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
     }

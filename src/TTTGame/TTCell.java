@@ -35,6 +35,7 @@ public class TTCell extends javax.swing.JPanel implements ActionListener{
     private PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
     private VetoableChangeSupport vetos = new VetoableChangeSupport(this);
     
+    private boolean won = false;
     
     public TTCell() {
         initComponents();
@@ -73,7 +74,7 @@ public class TTCell extends javax.swing.JPanel implements ActionListener{
                 return;
 
             }
-            btn.setBackground(Color.yellow);
+            //btn.setBackground(Color.yellow);
 
         }
         else
@@ -86,9 +87,15 @@ public class TTCell extends javax.swing.JPanel implements ActionListener{
                 Logger.getLogger(TTCell.class.getName()).log(Level.SEVERE, null, ex);
                 return;
             }
-            btn.setBackground(Color.cyan);
-        
+           // btn.setBackground(Color.cyan);        
         }
+        if(!won && state != TTTState.INITIAL)
+        {
+           Color c = state == TTTState.X? Color.yellow : Color.cyan;
+           btn.setBackground(c);        
+
+        }
+            
     }
     
     public TTTState getState() {
@@ -105,8 +112,15 @@ public class TTCell extends javax.swing.JPanel implements ActionListener{
     }
     public void setBtnWin()
     {
+        won=true;
         JButton toSet = state == TTTState.X? btnX : btnO;
         toSet.setBackground(Color.green);
+    }
+    public void disableBtn()
+    {
+        btnO.setEnabled(false);
+        btnX.setEnabled(false);
+
     }
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
