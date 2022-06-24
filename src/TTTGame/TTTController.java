@@ -26,7 +26,7 @@ public class TTTController extends JLabel implements VetoableChangeListener {
 //        propertySupport = new PropertyChangeSupport(this);
     }
     
-    public void reset()
+    public final void reset()
     {   
         super.setText("START GAME");
         lastMove = null;
@@ -44,7 +44,7 @@ public class TTTController extends JLabel implements VetoableChangeListener {
             throw new PropertyVetoException("Not "+newV+" turn!", pce);
        
         lastMove = newV;
-        String turn = newV.toString() == "X"? "O" : "X";
+        String turn = "X".equals(newV.toString())? "O" : "X";
         setText("Next move: "+ turn);
     }
     

@@ -115,6 +115,7 @@ public class TTCell extends javax.swing.JPanel implements ActionListener{
     }
     public void reset() 
     {
+        won=false;
         this.remove(btnO);
         this.remove(btnX);
         btnO = new JButton();

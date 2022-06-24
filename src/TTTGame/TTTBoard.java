@@ -177,7 +177,7 @@ public class TTTBoard extends JFrame implements PropertyChangeListener{
         move++;
         System.out.println("#Moves: "+move);
         boolean win = false;
-        if(move >= 5 && move < 9)
+        if(move >= 5)
         {
             //rows check
             for(int i=0,j=0; i< size; i++)
@@ -241,11 +241,11 @@ public class TTTBoard extends JFrame implements PropertyChangeListener{
                 
             }
         }
-        else if(move == 9)
-            {
+        if(move == 9 && !win)
+        {
                 ctlLbl.setText("Game over!");
                 win=true;
-            }
+        }
         if(win)
             for(int i=0; i < size; i++)
                 for(int j=0; j < size; j++)
