@@ -20,11 +20,17 @@ public class TTTController extends JLabel implements VetoableChangeListener {
     
     public TTTController() {
         super();
-        super.setText("START GAME");
-        lastMove = null;
+        reset();
+//        super.setText("START GAME");
+//        lastMove = null;
 //        propertySupport = new PropertyChangeSupport(this);
     }
     
+    public void reset()
+    {   
+        super.setText("START GAME");
+        lastMove = null;
+    }
 
     @Override
     public void vetoableChange(PropertyChangeEvent pce) throws PropertyVetoException {

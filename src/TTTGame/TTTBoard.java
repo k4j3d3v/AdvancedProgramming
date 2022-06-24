@@ -21,9 +21,13 @@ package TTTGame;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.border.Border;
 /**
  *
@@ -36,6 +40,7 @@ public class TTTBoard extends JFrame implements PropertyChangeListener{
     TTTController ctlLbl;
     private int move = 0;
     private enum winPattern { COL, ROW, DIAG, ANTIDIAG };
+    JButton btnRestart = new JButton("Restart!");
     /**
      * Creates new form TTTBoard
      */
@@ -44,6 +49,21 @@ public class TTTBoard extends JFrame implements PropertyChangeListener{
         matrix = new TTCell[size][size];
     }
     
+    private void resetGame()
+    {
+        // cells reset
+        for(int i=0; i< size; i++)
+        {
+            for(int j=0; j < size; j++)
+            {
+                    matrix[i][j].reset();
+            }
+        }
+        //controller reset
+        ctlLbl.reset();
+        //move num
+        move = 0;
+    }
     private void setGrid()
     {
         GridLayout experimentLayout = new GridLayout(size+1,size);
@@ -63,7 +83,16 @@ public class TTTBoard extends JFrame implements PropertyChangeListener{
         }
 
         this.add(ctlLbl); 
-
+        // dummy entry
+        this.add(new JPanel());
+        btnRestart.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                //make reset
+                resetGame();
+            }
+        });
+        this.add(btnRestart);
         this.setVisible(true);
 
     }

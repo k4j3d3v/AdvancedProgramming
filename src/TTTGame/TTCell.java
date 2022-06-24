@@ -44,19 +44,10 @@ public class TTCell extends javax.swing.JPanel implements ActionListener{
         this.add(btnX);
         this.add(btnO);
         this.setBorder(BorderFactory.createLineBorder(Color.black));
-        try {
-            this.setState(TTTState.INITIAL);
-        } catch (PropertyVetoException ex) {
-            Logger.getLogger(TTCell.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        this.state = TTTState.INITIAL;
 
-        
         btnX.addActionListener(this); 
         btnO.addActionListener(this); 
-
-        
-
     }
     
     @Override
@@ -120,6 +111,24 @@ public class TTCell extends javax.swing.JPanel implements ActionListener{
     {
         btnO.setEnabled(false);
         btnX.setEnabled(false);
+
+    }
+    public void reset() 
+    {
+        this.remove(btnO);
+        this.remove(btnX);
+        btnO = new JButton();
+        btnX = new JButton();
+        btnX.setText("X");
+        btnO.setText("O");
+        btnX.addActionListener(this); 
+        btnO.addActionListener(this); 
+        this.add(btnX);
+        this.add(btnO);
+        this.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.state = TTTState.INITIAL;
+        this.revalidate();
+        this.repaint();
 
     }
     @Override
