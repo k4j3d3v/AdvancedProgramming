@@ -5,6 +5,9 @@
  */
 package TTTGame;
 
+import Listener.TTTEndEvent;
+import Listener.TTTEndListener;
+import Listener.TTTResetListener;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -23,7 +26,13 @@ import javax.swing.JButton;
  *
  * @author luigi
  */
-public class TTCell extends javax.swing.JPanel implements ActionListener{
+public class TTCell extends javax.swing.JPanel implements ActionListener, 
+        TTTResetListener, TTTEndListener{
+
+    @Override
+    public void onEnd(TTTEndEvent evt) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     public static enum TTTState {
         INITIAL, X, O
@@ -46,7 +55,7 @@ public class TTCell extends javax.swing.JPanel implements ActionListener{
         this.setBorder(BorderFactory.createLineBorder(Color.black));
         this.state = TTTState.INITIAL;
 
-        btnX.addActionListener(this); 
+        btnX.addActionListener(this);
         btnO.addActionListener(this); 
     }
     
@@ -113,6 +122,11 @@ public class TTCell extends javax.swing.JPanel implements ActionListener{
         btnX.setEnabled(false);
 
     }
+
+    /**
+     *
+     */
+    @Override
     public void reset() 
     {
         won=false;

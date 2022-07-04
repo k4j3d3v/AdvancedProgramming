@@ -5,19 +5,22 @@
  */
 package TTTGame;
 
+import Listener.TTTEndEvent;
+import Listener.TTTEndListener;
+import Listener.TTTResetListener;
 import java.beans.*;
-import java.io.Serializable;
 import javax.swing.JLabel;
 
 /**
  *
  * @author luigi
  */
-public class TTTController extends JLabel implements VetoableChangeListener {
+public class TTTController extends JLabel implements VetoableChangeListener, 
+        TTTResetListener, TTTEndListener{ 
     
    
     private TTCell.TTTState lastMove;
-    
+   
     public TTTController() {
         super();
         reset();
@@ -26,6 +29,7 @@ public class TTTController extends JLabel implements VetoableChangeListener {
 //        propertySupport = new PropertyChangeSupport(this);
     }
     
+    @Override
     public final void reset()
     {   
         super.setText("START GAME");
@@ -34,18 +38,20 @@ public class TTTController extends JLabel implements VetoableChangeListener {
 
     @Override
     public void vetoableChange(PropertyChangeEvent pce) throws PropertyVetoException {
-        System.out.println("Vetoable change! "+ pce.getPropertyName() + " "
-        + pce.getNewValue());
-        TTCell.TTTState old = (TTCell.TTTState) pce.getOldValue();
+
+        TTCell.TTTState oldV = (TTCell.TTTState) pce.getOldValue();
         TTCell.TTTState newV = (TTCell.TTTState) pce.getNewValue();
-        System.out.println("lastMove: "+lastMove + " Cell "+pce.getSource().hashCode()+
-                ":\n old value: "+old +", new value:"+newV);
-        if(old != TTCell.TTTState.INITIAL || newV == lastMove)
+        if(oldV != TTCell.TTTState.INITIAL || newV == lastMove)
             throw new PropertyVetoException("Not "+newV+" turn!", pce);
        
         lastMove = newV;
         String turn = "X".equals(newV.toString())? "O" : "X";
         setText("Next move: "+ turn);
+    }
+
+    @Override
+    public void onEnd(TTTEndEvent evt) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
