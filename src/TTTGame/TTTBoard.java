@@ -24,6 +24,9 @@ import javax.swing.border.Border;
 public class TTTBoard extends JFrame implements PropertyChangeListener, TTTResetListener{
 
     private static final int BOARD_SIZE = 3;
+    private static final int MIN_MOVES = 5;
+    private static final int FULL_BOARD = 9;
+
     private final TTTCell[][] matrix = new TTTCell[BOARD_SIZE][BOARD_SIZE];
     private TTTController ctlLbl;
     private final JButton btnRestart = new JButton("Restart!");
@@ -87,7 +90,6 @@ public class TTTBoard extends JFrame implements PropertyChangeListener, TTTReset
     {
         //back to start game
         state = GameState.GAME_START;
-        System.out.println("Main state id: "+ state.hashCode());
         resetListeners.forEach((tttResetListener) -> tttResetListener.reset());
         //move numreset
         move = 0;
@@ -197,7 +199,7 @@ public class TTTBoard extends JFrame implements PropertyChangeListener, TTTReset
     public void propertyChange(PropertyChangeEvent pce) {
         
         move++;
-        if(move >= 5)
+        if(move >= MIN_MOVES)
         {
             //rows check
             for(int i=0,j=0; i< BOARD_SIZE; i++)
@@ -242,7 +244,6 @@ public class TTTBoard extends JFrame implements PropertyChangeListener, TTTReset
             //anti-diagonal check
             for(int i=0,j=BOARD_SIZE-1; j > 0; i++,j--)
             {
-                System.out.println("i= "+i+" j="+j);
                 if(matrix[i][j].getState()!= TTTCell.TTTState.INITIAL 
                 && matrix[i][j].getState() == matrix[i+1][j-1].getState())
                 {
@@ -259,12 +260,10 @@ public class TTTBoard extends JFrame implements PropertyChangeListener, TTTReset
             }
         }
         boolean win = state == GameState.WIN_X || state == GameState.WIN_O;
-        if(move == 9 && !win)
+        if(move == FULL_BOARD && !win)
         {
                 TTTEndEvent end = new TTTEndEvent(this);
-                ctlLbl.onEnd(end);
-                
-               // win=true;
+                ctlLbl.onEnd(end);                
         }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
