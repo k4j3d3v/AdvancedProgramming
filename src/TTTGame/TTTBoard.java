@@ -4,21 +4,17 @@ import Listener.TTTEndEvent;
 import Listener.TTTEndListener;
 import Listener.TTTResetListener;
 import Listener.TTTWonEvent;
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.HashSet;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 /**
- *
+ * Class(Main) representing and managing the game board, checking for won.
  * @author luigi
  */
 public class TTTBoard extends JFrame implements PropertyChangeListener, TTTResetListener{
@@ -33,9 +29,12 @@ public class TTTBoard extends JFrame implements PropertyChangeListener, TTTReset
 
     private enum winPattern { COL, ROW, DIAG, ANTIDIAG };
     private int move = 0;
-    private ArrayList<TTTResetListener> resetListeners = new ArrayList<>();
-    private ArrayList<TTTEndListener> endListeners = new ArrayList<>();
+    private final ArrayList<TTTResetListener> resetListeners = new ArrayList<>();
+    private final ArrayList<TTTEndListener> endListeners = new ArrayList<>();
     
+    /**
+     * Representing the game states.
+     */
     public GameState state = GameState.GAME_START;
 
     
@@ -83,7 +82,7 @@ public class TTTBoard extends JFrame implements PropertyChangeListener, TTTReset
     }
     
     /**
-     *
+     * Reset the board and all the contained components.
      */
     @Override
     public void reset()
@@ -141,8 +140,9 @@ public class TTTBoard extends JFrame implements PropertyChangeListener, TTTReset
         TTTWonEvent evt = new TTTWonEvent(winnerCell);
         ctlLbl.onEnd(evt);
         HashSet<TTTCell> wonCell = new HashSet<>();
-        switch(pat){
         
+        switch(pat){
+            
             case COL:
             {   
                 for(int i=0, j = pos; i < BOARD_SIZE; i++)
@@ -234,7 +234,7 @@ public class TTTBoard extends JFrame implements PropertyChangeListener, TTTReset
                     if(i==BOARD_SIZE-2)
                     {
                         setWinner(matrix[i][j],winPattern.DIAG, 0);
-                state = matrix[j+1][i+1].getState() == TTTCell.TTTState.O? GameState.WIN_O : GameState.WIN_X;
+                        state = matrix[j+1][i+1].getState() == TTTCell.TTTState.O? GameState.WIN_O : GameState.WIN_X;
                     }
                 }
                 else
@@ -251,7 +251,6 @@ public class TTTBoard extends JFrame implements PropertyChangeListener, TTTReset
                     {
                         setWinner(matrix[i][j],winPattern.ANTIDIAG, 0);
                         state = matrix[i+1][j-1].getState() == TTTCell.TTTState.O? GameState.WIN_O : GameState.WIN_X;
-
                     }
                 }
                 else

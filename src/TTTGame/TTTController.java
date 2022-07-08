@@ -51,9 +51,7 @@ public class TTTController extends JLabel implements VetoableChangeListener,
             throw new PropertyVetoException("Not "+newV+" turn!", pce);
        
         lastMove = newV;
-        board.state = "X".equals(newV.toString())? GameState.O_TURN : GameState.X_TURN;
-        TTTBoard board = (TTTBoard) SwingUtilities.getRoot(this);
-     
+        board.state = "X".equals(newV.toString())? GameState.O_TURN : GameState.X_TURN;     
         setText(board.state.toString());
     }
 

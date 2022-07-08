@@ -6,7 +6,7 @@
 package Listener;
 import java.util.EventListener;
 /**
- *
+ * Event listener invoked when the game is going to end.
  * @author luigi
  */
 public interface TTTEndListener extends EventListener{

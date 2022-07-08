@@ -6,7 +6,7 @@
 package TTTGame;
 
 /**
- *
+ * The states assumed during the game.
  * @author luigi
  */
  public enum GameState{
@@ -20,20 +20,15 @@ package TTTGame;
         private final String text;
 
         /**
-         * @param text
+         * 
+         * @param text to be assigned to certain value
          */
         GameState(final String text) {
             this.text = text;
         }
 
-        /* (non-Javadoc)
-         * @see java.lang.Enum#toString()
-         */
         @Override
         public String toString() {
             return text;
         }
-        
-    
-
     }

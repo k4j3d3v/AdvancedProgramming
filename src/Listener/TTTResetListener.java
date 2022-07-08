@@ -8,7 +8,7 @@ package Listener;
 import java.util.EventListener;
 
 /**
- *
+ * Event listener invoked when the game is to reset.
  * @author luigi
  */
 public interface TTTResetListener extends EventListener{
