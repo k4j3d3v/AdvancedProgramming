@@ -5,7 +5,7 @@
  */
 package Listener;
 
-import TTTGame.TTCell;
+import TTTGame.TTTCell;
 
 /**
  *
@@ -19,6 +19,6 @@ public class TTTWonEvent extends TTTEndEvent{
     
     public String getWinner()
     {
-        return ((TTCell)this.source).getState().toString();
+        return ((TTTCell)this.source).getState().toString();
     }
 }

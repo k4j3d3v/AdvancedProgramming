@@ -12,6 +12,7 @@ import Listener.TTTWonEvent;
 import java.beans.*;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -21,10 +22,11 @@ public class TTTController extends JLabel implements VetoableChangeListener,
         TTTResetListener, TTTEndListener{ 
     
    
-    private TTCell.TTTState lastMove;
+    private TTTCell.TTTState lastMove;
     private final TTTBoard board;
     public TTTController(TTTBoard b) {
         super();
+
         this.board = b;
         reset();
 
@@ -34,20 +36,21 @@ public class TTTController extends JLabel implements VetoableChangeListener,
     public final void reset()
     {   
         GameState state = board.state;
-        super.setText(state.toString());
+        setText(state.toString());
+        setBorder(new EmptyBorder(10,10,0,0));//top,left,bottom,right
+
         lastMove = null;
     }
 
     @Override
     public void vetoableChange(PropertyChangeEvent pce) throws PropertyVetoException {
 
-        TTCell.TTTState oldV = (TTCell.TTTState) pce.getOldValue();
-        TTCell.TTTState newV = (TTCell.TTTState) pce.getNewValue();
-        if(oldV != TTCell.TTTState.INITIAL || newV == lastMove)
+        TTTCell.TTTState oldV = (TTTCell.TTTState) pce.getOldValue();
+        TTTCell.TTTState newV = (TTTCell.TTTState) pce.getNewValue();
+        if(oldV != TTTCell.TTTState.INITIAL || newV == lastMove)
             throw new PropertyVetoException("Not "+newV+" turn!", pce);
        
         lastMove = newV;
-        //String turn = "X".equals(newV.toString())? "O"  : "X";
         board.state = "X".equals(newV.toString())? GameState.O_TURN : GameState.X_TURN;
         TTTBoard board = (TTTBoard) SwingUtilities.getRoot(this);
      

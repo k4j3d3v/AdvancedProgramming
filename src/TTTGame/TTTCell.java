@@ -28,7 +28,7 @@ import javax.swing.JOptionPane;
  *
  * @author luigi
  */
-public class TTCell extends javax.swing.JPanel implements ActionListener, 
+public class TTTCell extends javax.swing.JPanel implements ActionListener, 
         TTTResetListener, TTTEndListener{
 
     public static enum TTTState {
@@ -43,7 +43,7 @@ public class TTCell extends javax.swing.JPanel implements ActionListener,
     
     private boolean won = false;
     
-    public TTCell() {
+    public TTTCell() {
         initComponents();
         GridLayout experimentLayout = new GridLayout(2,1);
         this.setLayout(experimentLayout);
@@ -62,20 +62,14 @@ public class TTCell extends javax.swing.JPanel implements ActionListener,
         try{
             if (btn.equals(btnX))
             {
-
                     this.setState(TTTState.X);
                     btnO.setVisible(false);
-
-                //btn.setBackground(Color.yellow);
-
             }
             else
             {
 
                     this.setState(TTTState.O);
                     btnX.setVisible(false);
-
-               // btn.setBackground(Color.cyan);        
             }
         } catch (PropertyVetoException ex) {
             JOptionPane.showMessageDialog(this,ex.getMessage(),

@@ -24,7 +24,7 @@ import javax.swing.border.Border;
 public class TTTBoard extends JFrame implements PropertyChangeListener, TTTResetListener{
 
     private static final int BOARD_SIZE = 3;
-    private final TTCell[][] matrix = new TTCell[BOARD_SIZE][BOARD_SIZE];
+    private final TTTCell[][] matrix = new TTTCell[BOARD_SIZE][BOARD_SIZE];
     private TTTController ctlLbl;
     private final JButton btnRestart = new JButton("Restart!");
 
@@ -33,10 +33,7 @@ public class TTTBoard extends JFrame implements PropertyChangeListener, TTTReset
     private ArrayList<TTTResetListener> resetListeners = new ArrayList<>();
     private ArrayList<TTTEndListener> endListeners = new ArrayList<>();
     
-    // needs to make it a bound property
-    // for mantaining state coherence
     public GameState state = GameState.GAME_START;
-   // private PropertyChangeSupport changes = new PropertyChangeSupport(this);
 
     
     /**
@@ -60,7 +57,7 @@ public class TTTBoard extends JFrame implements PropertyChangeListener, TTTReset
         {
             for(int j=0; j < BOARD_SIZE; j++)
             {
-                    matrix[i][j] = new TTCell();
+                    matrix[i][j] = new TTTCell();
                     matrix[i][j].addPropertyChangeListener(this);
                     matrix[i][j].addVetoableChangeListener(ctlLbl);
                     resetListeners.add(matrix[i][j]);
@@ -82,36 +79,19 @@ public class TTTBoard extends JFrame implements PropertyChangeListener, TTTReset
         this.setVisible(true);
     }
     
-    public void setState(GameState newS){
-       // GameState old = state;
-        state = newS;
-        //changes.firePropertyChange("state", old, newS);
-    }
-    
     /**
      *
      */
     @Override
     public void reset()
     {
-//        // cells reset
-//        for(int i=0; i< BOARD_SIZE; i++)
-//        {
-//            for(int j=0; j < BOARD_SIZE; j++)
-//            {
-//                    matrix[i][j].reset();
-//            }
-//        }
-//        //controller reset
-//        ctlLbl.reset();
         //back to start game
         state = GameState.GAME_START;
         System.out.println("Main state id: "+ state.hashCode());
         resetListeners.forEach((tttResetListener) -> tttResetListener.reset());
         //move numreset
         move = 0;
-        //ctlLbl.revalidate();
-        //ctlLbl.repaint();
+      
 
     }
     
@@ -125,6 +105,7 @@ public class TTTBoard extends JFrame implements PropertyChangeListener, TTTReset
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("TTTGame");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -153,14 +134,11 @@ public class TTTBoard extends JFrame implements PropertyChangeListener, TTTReset
         });
     }
     
-    private void setWinner(TTCell winnerCell, winPattern pat, int pos)
+    private void setWinner(TTTCell winnerCell, winPattern pat, int pos)
     {
-//        String winner = winnerCell.getState().toString();
-//        System.out.println("Game over. Winner is "+ winner);
-//        ctlLbl.setText("Winner is "+ winner);
         TTTWonEvent evt = new TTTWonEvent(winnerCell);
         ctlLbl.onEnd(evt);
-        HashSet<TTCell> wonCell = new HashSet<>();
+        HashSet<TTTCell> wonCell = new HashSet<>();
         switch(pat){
         
             case COL:
@@ -218,50 +196,43 @@ public class TTTBoard extends JFrame implements PropertyChangeListener, TTTReset
     @Override
     public void propertyChange(PropertyChangeEvent pce) {
         
-        System.out.println("Property changed, the new value is: "+pce.getPropertyName()+": " + pce.getNewValue());
         move++;
-        System.out.println("#Moves: "+move);
-        //boolean win = false;
         if(move >= 5)
         {
             //rows check
             for(int i=0,j=0; i< BOARD_SIZE; i++)
             {
-                if(matrix[i][j].getState()!= TTCell.TTTState.INITIAL 
+                if(matrix[i][j].getState()!= TTTCell.TTTState.INITIAL 
                 && matrix[i][j].getState() == matrix[i][j+1].getState() 
                 && matrix[i][j+1].getState() == matrix[i][j+2].getState())
                 {
                     setWinner(matrix[i][j],winPattern.ROW, i);
-                    //win=true;
-                    state = matrix[i][j+2].getState() == TTCell.TTTState.O? GameState.WIN_O : GameState.WIN_X;
+                    state = matrix[i][j+2].getState() == TTTCell.TTTState.O? GameState.WIN_O : GameState.WIN_X;
                 }
 
             }
             //column check
              for(int j=0,i=0; i< BOARD_SIZE; i++)
             {
-                if(matrix[j][i].getState()!= TTCell.TTTState.INITIAL 
+                if(matrix[j][i].getState()!= TTTCell.TTTState.INITIAL 
                 && matrix[j][i].getState() == matrix[j+1][i].getState() 
                 && matrix[j+1][i].getState() == matrix[j+2][i].getState())
                 {
                     setWinner(matrix[i][j],winPattern.COL, i);
-                    //win=true;
-                    state = matrix[j+2][i].getState() == TTCell.TTTState.O? GameState.WIN_O : GameState.WIN_X;
+                    state = matrix[j+2][i].getState() == TTTCell.TTTState.O? GameState.WIN_O : GameState.WIN_X;
 
                 }
             }
             //diagonal check
             for(int j=0,i=0; i< BOARD_SIZE-1; i++,j++)
             {
-                if(matrix[j][i].getState()!= TTCell.TTTState.INITIAL 
+                if(matrix[j][i].getState()!= TTTCell.TTTState.INITIAL 
                 && matrix[j][i].getState() == matrix[j+1][i+1].getState())
                 {
                     if(i==BOARD_SIZE-2)
                     {
                         setWinner(matrix[i][j],winPattern.DIAG, 0);
-                        //System.out.println("Game over. Winner is "+matrix[i][j].getState());
-                        //win=true;
-                        state = matrix[j+1][i+1].getState() == TTCell.TTTState.O? GameState.WIN_O : GameState.WIN_X;
+                state = matrix[j+1][i+1].getState() == TTTCell.TTTState.O? GameState.WIN_O : GameState.WIN_X;
                     }
                 }
                 else
@@ -272,14 +243,13 @@ public class TTTBoard extends JFrame implements PropertyChangeListener, TTTReset
             for(int i=0,j=BOARD_SIZE-1; j > 0; i++,j--)
             {
                 System.out.println("i= "+i+" j="+j);
-                if(matrix[i][j].getState()!= TTCell.TTTState.INITIAL 
+                if(matrix[i][j].getState()!= TTTCell.TTTState.INITIAL 
                 && matrix[i][j].getState() == matrix[i+1][j-1].getState())
                 {
                     if(i==1)
                     {
                         setWinner(matrix[i][j],winPattern.ANTIDIAG, 0);
-                        //win=true;
-                        state = matrix[i+1][j-1].getState() == TTCell.TTTState.O? GameState.WIN_O : GameState.WIN_X;
+                        state = matrix[i+1][j-1].getState() == TTTCell.TTTState.O? GameState.WIN_O : GameState.WIN_X;
 
                     }
                 }
@@ -296,10 +266,7 @@ public class TTTBoard extends JFrame implements PropertyChangeListener, TTTReset
                 
                // win=true;
         }
-//        if(win)
-//            for(int i=0; i < BOARD_SIZE; i++)
-//                for(int j=0; j < BOARD_SIZE; j++)
-//                    matrix[i][j].disableBtn();
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
     }
