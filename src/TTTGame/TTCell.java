@@ -8,6 +8,7 @@ package TTTGame;
 import Listener.TTTEndEvent;
 import Listener.TTTEndListener;
 import Listener.TTTResetListener;
+import Listener.TTTWonEvent;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -28,11 +29,6 @@ import javax.swing.JButton;
  */
 public class TTCell extends javax.swing.JPanel implements ActionListener, 
         TTTResetListener, TTTEndListener{
-
-    @Override
-    public void onEnd(TTTEndEvent evt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     public static enum TTTState {
         INITIAL, X, O
@@ -93,7 +89,6 @@ public class TTCell extends javax.swing.JPanel implements ActionListener,
         {
            Color c = state == TTTState.X? Color.yellow : Color.cyan;
            btn.setBackground(c);        
-
         }
             
     }
@@ -110,11 +105,18 @@ public class TTCell extends javax.swing.JPanel implements ActionListener,
         propertySupport.firePropertyChange(PROPERTY, oldState, state);
        
     }
-    public void setBtnWin()
+    
+    @Override
+    public void onEnd(TTTEndEvent evt) 
     {
-        won=true;
-        JButton toSet = state == TTTState.X? btnX : btnO;
-        toSet.setBackground(Color.green);
+        if(evt instanceof TTTWonEvent)
+        {
+            won=true;
+            JButton toSet = state == TTTState.X? btnX : btnO;
+            toSet.setBackground(Color.green);
+        }
+        else
+            disableBtn();
     }
     public void disableBtn()
     {

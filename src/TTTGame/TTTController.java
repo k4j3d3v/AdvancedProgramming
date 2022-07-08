@@ -8,8 +8,10 @@ package TTTGame;
 import Listener.TTTEndEvent;
 import Listener.TTTEndListener;
 import Listener.TTTResetListener;
+import Listener.TTTWonEvent;
 import java.beans.*;
 import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -20,19 +22,20 @@ public class TTTController extends JLabel implements VetoableChangeListener,
     
    
     private TTCell.TTTState lastMove;
-   
-    public TTTController() {
+    private final TTTBoard board;
+    public TTTController(TTTBoard b) {
         super();
+        this.board = b;
         reset();
-//        super.setText("START GAME");
-//        lastMove = null;
-//        propertySupport = new PropertyChangeSupport(this);
+
     }
     
     @Override
     public final void reset()
     {   
-        super.setText("START GAME");
+        GameState state = board.state;
+        super.setText(state.toString());
+
         lastMove = null;
     }
 
@@ -45,13 +48,28 @@ public class TTTController extends JLabel implements VetoableChangeListener,
             throw new PropertyVetoException("Not "+newV+" turn!", pce);
        
         lastMove = newV;
-        String turn = "X".equals(newV.toString())? "O" : "X";
-        setText("Next move: "+ turn);
+        //String turn = "X".equals(newV.toString())? "O"  : "X";
+        board.state = "X".equals(newV.toString())? GameState.O_TURN : GameState.X_TURN;
+        TTTBoard board = (TTTBoard) SwingUtilities.getRoot(this);
+     
+        setText(board.state.toString());
     }
 
     @Override
     public void onEnd(TTTEndEvent evt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(evt instanceof TTTWonEvent)
+        {
+            String winner = ((TTTWonEvent) evt).getWinner();
+            board.state = "X".equals(winner)? GameState.WIN_X : GameState.WIN_O; 
+            this.setText(board.state.toString());
+        }
+        else
+        {
+           board.state = GameState.GAME_END;
+           this.setText(GameState.GAME_END.toString());
+        }
+        
     }
+
     
 }

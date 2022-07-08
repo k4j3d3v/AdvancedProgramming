@@ -1,5 +1,10 @@
+# Building directories
 /build/
 /dist/
+
+# NetBeans generated file
+nbproject/private/private.xml
+
 # Compiled class file
 *.class
 

@@ -5,16 +5,20 @@
  */
 package Listener;
 
-import java.util.EventObject;
+import TTTGame.TTCell;
 
 /**
  *
  * @author luigi
  */
-public class TTTEndEvent extends EventObject {
+public class TTTWonEvent extends TTTEndEvent{
     
-    public TTTEndEvent(Object source) {
-        super(source);
+    public TTTWonEvent(Object src) {
+        super(src);
     }
     
+    public String getWinner()
+    {
+        return ((TTCell)this.source).getState().toString();
+    }
 }

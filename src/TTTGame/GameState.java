@@ -9,7 +9,7 @@ package TTTGame;
  *
  * @author luigi
  */
- public enum GameStates{
+ public enum GameState{
         GAME_START("Start playing!"),
         X_TURN("Next move: X"),
         O_TURN("Next move: O"),
@@ -22,7 +22,7 @@ package TTTGame;
         /**
          * @param text
          */
-        GameStates(final String text) {
+        GameState(final String text) {
             this.text = text;
         }
 
@@ -33,4 +33,7 @@ package TTTGame;
         public String toString() {
             return text;
         }
+        
+    
+
     }
