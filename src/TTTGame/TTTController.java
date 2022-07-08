@@ -35,7 +35,6 @@ public class TTTController extends JLabel implements VetoableChangeListener,
     {   
         GameState state = board.state;
         super.setText(state.toString());
-
         lastMove = null;
     }
 

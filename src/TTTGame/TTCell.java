@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -58,32 +59,27 @@ public class TTCell extends javax.swing.JPanel implements ActionListener,
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton btn =(JButton) e.getSource();
-        if (btn.equals(btnX))
-        {
-            
-            try {
-                this.setState(TTTState.X);
-                btnO.setVisible(false);
-            } catch (PropertyVetoException ex) {
-                //Logger.getLogger(TTCell.class.getName()).log(Level.SEVERE, null, ex);
-                System.out.println("Exception:" + ex.toString());
-                return;
+        try{
+            if (btn.equals(btnX))
+            {
+
+                    this.setState(TTTState.X);
+                    btnO.setVisible(false);
+
+                //btn.setBackground(Color.yellow);
 
             }
-            //btn.setBackground(Color.yellow);
+            else
+            {
 
-        }
-        else
-        {
-            
-            try {
-                this.setState(TTTState.O);
-                btnX.setVisible(false);
-            } catch (PropertyVetoException ex) {
-                Logger.getLogger(TTCell.class.getName()).log(Level.SEVERE, null, ex);
-                return;
+                    this.setState(TTTState.O);
+                    btnX.setVisible(false);
+
+               // btn.setBackground(Color.cyan);        
             }
-           // btn.setBackground(Color.cyan);        
+        } catch (PropertyVetoException ex) {
+            JOptionPane.showMessageDialog(this,ex.getMessage(),
+                        "Turn error", JOptionPane.ERROR_MESSAGE);
         }
         if(!won && state != TTTState.INITIAL)
         {
@@ -97,12 +93,14 @@ public class TTCell extends javax.swing.JPanel implements ActionListener,
         return state;
     }
     
-    public void setState(TTTState value) throws PropertyVetoException {
-        TTTState oldState = state;
+    public void setState(TTTState value) throws PropertyVetoException{
         
-        vetos.fireVetoableChange(PROPERTY, oldState, value);
-        state = value;
-        propertySupport.firePropertyChange(PROPERTY, oldState, state);
+            TTTState oldState = state;
+            
+            vetos.fireVetoableChange(PROPERTY, oldState, value);
+            state = value;
+            propertySupport.firePropertyChange(PROPERTY, oldState, state);
+        
        
     }
     
@@ -118,7 +116,7 @@ public class TTCell extends javax.swing.JPanel implements ActionListener,
         else
             disableBtn();
     }
-    public void disableBtn()
+    private void disableBtn()
     {
         btnO.setEnabled(false);
         btnX.setEnabled(false);
