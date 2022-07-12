@@ -15,7 +15,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 /**
- *
+ * Class representing the label that indicates the game states
+ * and manages the interplay.
  * @author luigi
  */
 public class TTTController extends JLabel implements VetoableChangeListener, 

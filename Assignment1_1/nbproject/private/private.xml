@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/home/luigi/NetBeansProjects/FirstAssignment/src/TTTGame/TTTBoard.java</file>
+            <file>file:/home/luigi/NetBeansProjects/FirstAssignment/src/TTTGame/GameState.java</file>
+            <file>file:/home/luigi/NetBeansProjects/FirstAssignment/src/TTTGame/TTTController.java</file>
+            <file>file:/home/luigi/NetBeansProjects/FirstAssignment/src/Listener/TTTEndListener.java</file>
+            <file>file:/home/luigi/NetBeansProjects/FirstAssignment/src/TTTGame/TTTCell.java</file>
+            <file>file:/home/luigi/NetBeansProjects/FirstAssignment/src/Listener/TTTResetListener.java</file>
+            <file>file:/home/luigi/NetBeansProjects/FirstAssignment/src/Listener/TTTWonEvent.java</file>
+            <file>file:/home/luigi/NetBeansProjects/FirstAssignment/src/Listener/TTTEndEvent.java</file>
+        </group>
+    </open-files>
+</project-private>

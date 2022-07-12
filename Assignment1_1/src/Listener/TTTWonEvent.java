@@ -8,7 +8,7 @@ package Listener;
 import TTTGame.TTTCell;
 
 /**
- *
+ * Class representing the game end for Won.
  * @author luigi
  */
 public class TTTWonEvent extends TTTEndEvent{
