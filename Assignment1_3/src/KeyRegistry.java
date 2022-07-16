@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class KeyRegistry {
 	private HashMap<Class<?>, String> classKeys= new HashMap<>();
@@ -13,14 +11,14 @@ public class KeyRegistry {
 	 * To add a new key for the crypto algorithm
 	 * class c
 	 */
-	public void add(Class c, String key)
+	public void add(Class<?> c, String key)
 	{
 		classKeys.putIfAbsent(c, key);
 	}
 	/*
 	 * get the last key associated with the class c
 	 */
-	public String get(Class c)
+	public String get(Class<?> c)
 	{
 		return classKeys.get(c);	
 	}
